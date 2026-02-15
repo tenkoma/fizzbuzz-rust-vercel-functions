@@ -1,10 +1,10 @@
-use serde_json::json;
-use vercel_runtime::{run, Body, Error, Request, Response, StatusCode};
+use serde_json::{json, Value};
+use vercel_runtime::{run, service_fn, Error, Request};
 use fizzbuzz_rust_vercel_functions::fizzbuzz;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    run(handler).await
+    run(service_fn(handler)).await
 }
 
 fn generate_fizzbuzz(number: u64) -> String {
@@ -16,15 +16,8 @@ fn generate_fizzbuzz(number: u64) -> String {
     res
 }
 
-pub async fn handler(_req: Request) -> Result<Response<Body>, Error> {
-    Ok(Response::builder()
-        .status(StatusCode::OK)
-        .header("Content-Type", "application/json")
-        .body(
-            json!({
-                "message": generate_fizzbuzz(100),
-            })
-                .to_string()
-                .into(),
-        )?)
+pub async fn handler(_req: Request) -> Result<Value, Error> {
+    Ok(json!({
+        "message": generate_fizzbuzz(100),
+    }))
 }

@@ -9,7 +9,7 @@ edition = "2021"
 serde_json = "1"
 tokio = { version = "1", features = ["macros"] }
 # Documentation: https://docs.rs/vercel_runtime/latest/vercel_runtime
-vercel_runtime = { version = "1.1.0" }
+vercel_runtime = { version = "2" }
 
 # You can specify a library for shared logic here (optional)
  [lib]
